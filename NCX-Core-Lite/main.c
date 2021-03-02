@@ -45,7 +45,7 @@ int Download(const char *url, const char *file){
         fclose(fp); }
 }
 int Store(){
-    printf("yo\n");
+    printf("Coming soon\n");
 }
 int main(){
     printf("Loading...\n");
