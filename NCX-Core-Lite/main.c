@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define _POSIX_SOURCE
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
+#undef _POSIX_SOURCE
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string.h>
@@ -45,6 +49,21 @@ int Download(const char *url, const char *file){
         curl_easy_cleanup(curl);
         fclose(fp); }
 }
+int Update(){
+    #ifdef _WIN32
+    #endif
+    #ifdef unix
+    #endif
+    #ifdef __APPLE__
+        if(!remove("NCX-Core-LiteX86")){printf("error\n");};
+        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-LiteX86", "NCX-Core-LiteX86")){printf("error\n");};
+        if (chmod("NCX-Core-LiteX86", S_IRWXU|S_IRWXG) != 0)
+            perror("chmod() error");
+        else {
+            printf("no error\n");
+        }
+    #endif
+}
 int Store(){
     clrScrn();
     printf("*====================================*\n");
@@ -53,19 +72,21 @@ int Store(){
     printf("|       |                            |\n");
     printf("|  (1)  |   Exit Program             |\n");
     printf("|       |                            |\n");
+    printf("|  (2)  |   Update NCX-Core-Lite     |\n");
+    printf("|       |                            |\n");
     printf("|       | Prodcuts:                  |\n");
     printf("|       |                            |\n");
-    printf("|  (2)  |   theVaultC                |\n");
+    printf("|  (3)  |   theVaultC                |\n");
     printf("|       |                            |\n");
-    printf("|  (3)  |   fakeApt                  |\n");
+    printf("|  (4)  |   fakeApt                  |\n");
     printf("|       |                            |\n");
-    printf("|  (4)  |   NCX-Core (Win)           |\n");
+    printf("|  (5)  |   NCX-Core (Win)           |\n");
     printf("|       |                            |\n");
-    printf("|  (5)  |   CSharpCollection (Win)   |\n");
+    printf("|  (6)  |   CSharpCollection (Win)   |\n");
     printf("|       |                            |\n");
-    printf("|  (6)  |   C64-Title-Loader         |\n");
+    printf("|  (7)  |   C64-Title-Loader         |\n");
     printf("|       |                            |\n");
-    printf("|  (7)  |   lazy-dsi-file-downloader |\n");
+    printf("|  (8)  |   lazy-dsi-file-downloader |\n");
     printf("|       |                            |\n");
     printf("*=======*============================*\n");
     while(menuChoice==0){
@@ -73,12 +94,12 @@ int Store(){
         menuChoice=fgetc(stdin);
         // Get settings menu choice
         if(menuChoice==49) exit(0);
-        if(menuChoice==50){}
+        if(menuChoice==50) Update();
         if(menuChoice==51){}
         if(menuChoice==52){}
         if(menuChoice==53) exit(0); }
 }
-int main(){
+int main(void){
     printf("Loading...\n");
     DIR* dir = opendir("tmp");
     if (dir) {
