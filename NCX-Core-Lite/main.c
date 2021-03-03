@@ -10,6 +10,7 @@
 #include <string.h>
 #include <errno.h>
 #include <dirent.h>
+#include <zip.h>
 // Declare functions
 int Store();
 int Download();
@@ -56,12 +57,8 @@ int Update(){
     #endif
     #ifdef __APPLE__
         if(!remove("NCX-Core-LiteX86")){printf("error\n");};
-        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-LiteX86", "NCX-Core-LiteX86")){printf("error\n");};
-        if (chmod("NCX-Core-LiteX86", S_IRWXU|S_IRWXG) != 0)
-            perror("chmod() error");
-        else {
-            printf("no error\n");
-        }
+        if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-LiteX86.zip", "NCX-Core-LiteX86.zip")){printf("error\n");};
+        
     #endif
 }
 int Store(){
