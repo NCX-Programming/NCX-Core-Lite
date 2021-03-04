@@ -35,7 +35,7 @@ void Update(){
         if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-LiteX86.zip", "NCX-Core-LiteX86.zip")){printf("error\n");};
         clrScrn();
         printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
-        pritnf("Press ENTER to return to the store.\n");
+        printf("Press ENTER to return to the store.\n");
         getchar();
         menuChoice=0;
         Store();
