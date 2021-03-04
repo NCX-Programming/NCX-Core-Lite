@@ -1,67 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define _POSIX_SOURCE
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#undef _POSIX_SOURCE
-#include <curl/curl.h>
-#include <curl/easy.h>
 #include <string.h>
 #include <errno.h>
 #include <dirent.h>
-#include <zip.h>
+#include "store.h"
+#include "functions.h"
 // Declare functions
-int Store();
+void Store();
 int Download();
 // Declare variables
 int menuChoice;
-// Not really sure what this code does but it helps with downloading stuff so its important
-size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
-    size_t written = fwrite(ptr, size, nmemb, stream);
-    return written;
-}
 // Start code
-int clrScrn() {
-    // Screen clear fucntion, checks OS first for compatibility:tm:
-    #ifdef _WIN32
-        system("cls");
-    #endif
-    #ifdef unix
-        system("clear");
-    #endif
-    #ifdef __APPLE__
-        system( "clear" );
-    #endif
-}
-int Download(const char *url, const char *file){
-    // Download code
-    CURL *curl;
-    FILE *fp;
-    CURLcode res;
-    curl = curl_easy_init();
-    if (curl) {
-        fp = fopen(file,"wb");
-        curl_easy_setopt(curl, CURLOPT_URL, url);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-        res = curl_easy_perform(curl);
-        // Cleanup stuff
-        curl_easy_cleanup(curl);
-        fclose(fp); }
-}
-int Update(){
+void Update(){
     #ifdef _WIN32
     #endif
     #ifdef unix
+        clrScrn();
+        printf("Downloading...");
+        if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-Lite-linux.zip", "NCX-Core-Lite-linux.zip")){printf("error\n");};
+        clrScrn();
+        printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
+        printf("Press ENTER to return to the store.\n");
+        getchar();
+        getchar();
+        menuChoice=0;
+        Store();
     #endif
     #ifdef __APPLE__
-        if(!remove("NCX-Core-LiteX86")){printf("error\n");};
+        clrScrn();
+        printf("Downloading...");
         if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-LiteX86.zip", "NCX-Core-LiteX86.zip")){printf("error\n");};
-        
+        clrScrn();
+        printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
+        pritnf("Press ENTER to return to the store.\n");
+        getchar();
+        menuChoice=0;
+        Store();
     #endif
 }
-int Store(){
+void Store(){
     clrScrn();
     printf("*====================================*\n");
     printf("| \e[1;97mXStore-Lite\e[0m                        |\n");
@@ -71,7 +51,7 @@ int Store(){
     printf("|       |                            |\n");
     printf("|  (2)  |   Update NCX-Core-Lite     |\n");
     printf("|       |                            |\n");
-    printf("|       | Prodcuts:                  |\n");
+    printf("|       | Programs:                  |\n");
     printf("|       |                            |\n");
     printf("|  (3)  |   theVaultC                |\n");
     printf("|       |                            |\n");
@@ -90,11 +70,14 @@ int Store(){
         menuChoice=0;
         menuChoice=fgetc(stdin);
         // Get settings menu choice
-        if(menuChoice==49) exit(0);
-        if(menuChoice==50) Update();
+        if(menuChoice==49)exit(0);
+        if(menuChoice==50)Update();
         if(menuChoice==51){}
         if(menuChoice==52){}
-        if(menuChoice==53) exit(0); }
+        if(menuChoice==53){}
+        if(menuChoice==54){}
+        if(menuChoice==55){}
+        if(menuChoice==56)ldsifd();}
 }
 int main(void){
     printf("Loading...\n");
