@@ -52,7 +52,7 @@ void vaultc(){
             printf("Downloading...\n");
             if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){printf("Done.\n");};
             sleep(1);
-            ldsifd(); }
+            vaultc(); }
         if(storeChoice==50)Store();}
 }
 void fkapt(){
@@ -71,7 +71,7 @@ void fkapt(){
             printf("Downloading...\n");
             if(!Download("https://github.com/NinjaCheetah/fake-apt/releases/latest/download/fakeApt-latest-stable.zip", "fakeApt-latest-stable.zip")){printf("Done.\n");};
             sleep(1);
-            ldsifd(); }
+            fkapt(); }
         if(storeChoice==50)Store();}
 }
 void fkpcmn(){
@@ -89,16 +89,16 @@ void fkpcmn(){
             #ifdef unix
                 clrScrn();
                 printf("Downloading...\n");
-                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-linux", "fake-pacman-linux")){printf("Done.\n");};
+                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-linux.zip", "fake-pacman-linux.zip")){printf("Done.\n");};
                 sleep(1);
-                ldsifd();
+                fkpcmn();
             #endif
             #ifdef __APPLE__
                 clrScrn();
                 printf("Downloading...\n");
-                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-macX86", "fake-pacman-macX86")){printf("Done.\n");};
+                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-mac.zip", "fake-pacman-mac.zip")){printf("Done.\n");};
                 sleep(1);
-                ldsifd();
+                fkpcmn();
             #endif 
             }
         if(storeChoice==50)Store();}
