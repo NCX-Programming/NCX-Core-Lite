@@ -76,9 +76,9 @@ void fkapt(){
 }
 void fkpcmn(){
     clrScrn();
-    printf("NCX-Core\nBy NCX-Programming/NinjaCheetah\n\n");
-    printf("The easy to use hub for all my Visual Studio projects. Here to stop you from having to chase new commits and releases.\n\n");
-    printf("Requirements: .NET Desktop Runtime 5.0 on Windows\n\n");
+    printf("fake-pacman\nBy Jonatan6\n\n");
+    printf("fake-pacman is a terminal program for macOS and Linux that will make it look like you are installing a pacman package.\n\n");
+    printf("Requirements: macOS: 10.12 or later, Linux: 64-bit version of Linux\n\n");
     printf("Options:\n1. Download\n2. Return to Store\n");
     storeChoice=0;
     while(storeChoice==0||storeChoice=='\n'){
@@ -86,10 +86,20 @@ void fkpcmn(){
         storeChoice=fgetc(stdin);
         // Get choice
         if(storeChoice==49){
-            clrScrn();
-            printf("Downloading...\n");
-            if(!Download("https://github.com/NCX-Programming/NCX-Core/releases/latest/download/NCXCore-Setup.msi", "NCXCore-Setup.msi")){printf("Done.\n");};
-            sleep(1);
-            ldsifd(); }
+            #ifdef unix
+                clrScrn();
+                printf("Downloading...\n");
+                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-linux", "fake-pacman-linux")){printf("Done.\n");};
+                sleep(1);
+                ldsifd();
+            #endif
+            #ifdef __APPLE__
+                clrScrn();
+                printf("Downloading...\n");
+                if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-macX86", "fake-pacman-macX86")){printf("Done.\n");};
+                sleep(1);
+                ldsifd();
+            #endif 
+            }
         if(storeChoice==50)Store();}
 }
