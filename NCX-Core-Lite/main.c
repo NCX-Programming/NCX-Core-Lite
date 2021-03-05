@@ -20,7 +20,7 @@ void Update(){
     #ifdef unix
         clrScrn();
         printf("Downloading...");
-        if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-Lite-linux.zip", "NCX-Core-Lite-linux.zip")){printf("error\n");};
+        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-Lite-linux.zip", "NCX-Core-Lite-linux.zip")){printf("error\n");};
         clrScrn();
         printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
         printf("Press ENTER to return to the store.\n");
@@ -32,7 +32,7 @@ void Update(){
     #ifdef __APPLE__
         clrScrn();
         printf("Downloading...");
-        if(!Download("https://raw.githubusercontent.com/NinjaCheetah/ncx-core-files/master/NCX-Core-LiteX86.zip", "NCX-Core-LiteX86.zip")){printf("error\n");};
+        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-Lite-X86.zip", "NCX-Core-Lite-X86.zip")){printf("error\n");};
         clrScrn();
         printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
         printf("Press ENTER to return to the store.\n");
@@ -66,17 +66,18 @@ void Store(){
     printf("|  (8)  |   lazy-dsi-file-downloader |\n");
     printf("|       |                            |\n");
     printf("*=======*============================*\n");
-    while(menuChoice==0){
+    menuChoice=0;
+    while(menuChoice==0||menuChoice=='\n'){
         menuChoice=0;
         menuChoice=fgetc(stdin);
-        // Get settings menu choice
+        // Get store menu choice
         if(menuChoice==49)exit(0);
         if(menuChoice==50)Update();
-        if(menuChoice==51){}
-        if(menuChoice==52){}
-        if(menuChoice==53){}
-        if(menuChoice==54){}
-        if(menuChoice==55){}
+        if(menuChoice==51)Store();
+        if(menuChoice==52)Store();
+        if(menuChoice==53)Store();
+        if(menuChoice==54)Store();
+        if(menuChoice==55)Store();
         if(menuChoice==56)ldsifd();}
 }
 int main(void){

@@ -3,7 +3,7 @@
 #define STORE_DOT_H
 
 // Declare store functions
-int ldsifd();
+void ldsifd();
 int cscol();
 int ncxc();
 int fkapt();
