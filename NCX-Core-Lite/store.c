@@ -1,3 +1,6 @@
+//NCX-Core-Lite "store.c"
+//Copyright (C) 2021 NinjaCheetah
+//Copyright (C) 2021 NCX-Programming
 #include "store.h"
 #include "functions.h"
 #include <stdio.h>
@@ -48,6 +51,44 @@ void vaultc(){
             clrScrn();
             printf("Downloading...\n");
             if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){printf("Done.\n");};
+            sleep(1);
+            ldsifd(); }
+        if(storeChoice==50)Store();}
+}
+void fkapt(){
+    clrScrn();
+    printf("fakeApt\nBy NinjaCheetah\n\n");
+    printf("A fun little program made in C# with .NET 5, just goes through a fake apt install process to 'install' any package you could think up.\n\n");
+    printf("Requirements: .NET 5.0 on macOS, Windows, or Linux\n\n");
+    printf("Options:\n1. Download\n2. Return to Store\n");
+    storeChoice=0;
+    while(storeChoice==0||storeChoice=='\n'){
+        storeChoice=0;
+        storeChoice=fgetc(stdin);
+        // Get choice
+        if(storeChoice==49){
+            clrScrn();
+            printf("Downloading...\n");
+            if(!Download("https://github.com/NinjaCheetah/fake-apt/releases/latest/download/fakeApt-latest-stable.zip", "fakeApt-latest-stable.zip")){printf("Done.\n");};
+            sleep(1);
+            ldsifd(); }
+        if(storeChoice==50)Store();}
+}
+void fkpcmn(){
+    clrScrn();
+    printf("NCX-Core\nBy NCX-Programming/NinjaCheetah\n\n");
+    printf("The easy to use hub for all my Visual Studio projects. Here to stop you from having to chase new commits and releases.\n\n");
+    printf("Requirements: .NET Desktop Runtime 5.0 on Windows\n\n");
+    printf("Options:\n1. Download\n2. Return to Store\n");
+    storeChoice=0;
+    while(storeChoice==0||storeChoice=='\n'){
+        storeChoice=0;
+        storeChoice=fgetc(stdin);
+        // Get choice
+        if(storeChoice==49){
+            clrScrn();
+            printf("Downloading...\n");
+            if(!Download("https://github.com/NCX-Programming/NCX-Core/releases/latest/download/NCXCore-Setup.msi", "NCXCore-Setup.msi")){printf("Done.\n");};
             sleep(1);
             ldsifd(); }
         if(storeChoice==50)Store();}

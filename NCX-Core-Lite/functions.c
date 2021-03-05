@@ -1,3 +1,6 @@
+//NCX-Core-Lite "functions.c"
+//Copyright (C) 2021 NinjaCheetah
+//Copyright (C) 2021 NCX-Programming
 #include "functions.h"
 #include <stdio.h>
 #include <curl/curl.h>

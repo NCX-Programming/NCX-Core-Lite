@@ -1,3 +1,6 @@
+//NCX-Core-Lite "main.c"
+//Copyright (C) 2021 NinjaCheetah
+//Copyright (C) 2021 NCX-Programming
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -57,7 +60,7 @@ void Store(){
     printf("|       |                            |\n");
     printf("|  (4)  |   fakeApt                  |\n");
     printf("|       |                            |\n");
-    printf("|  (5)  |   NCX-Core (Win)           |\n");
+    printf("|  (5)  |   fake-pacman              |\n");
     printf("|       |                            |\n");
     printf("|  (6)  |   CSharpCollection (Win)   |\n");
     printf("|       |                            |\n");
@@ -76,8 +79,8 @@ void Store(){
             exit(0);}
         if(menuChoice==50)Update();
         if(menuChoice==51)vaultc();
-        if(menuChoice==52)Store();
-        if(menuChoice==53)Store();
+        if(menuChoice==52)fkapt();
+        if(menuChoice==53)fkpcmn();
         if(menuChoice==54)Store();
         if(menuChoice==55)Store();
         if(menuChoice==56)ldsifd();}
@@ -94,6 +97,7 @@ int main(void){
     if(!Download("https://raw.githubusercontent.com/NinjaCheetah/NCX-Installer-news/master/newsLatest.txt", "tmp/news.txt")){printf("error\n");}
     clrScrn();
     printf("Welcome to NCX-Core-Lite!\n\n");
+    printf("NCX-Core-Lite,  Copyright (C) 2021  NCX-Programming/NinjaCheetah\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; view the full license in the repo.\n\n");
     // Read news file
     FILE *fp;
     char news[2048];
