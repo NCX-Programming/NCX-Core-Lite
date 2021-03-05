@@ -71,9 +71,11 @@ void Store(){
         menuChoice=0;
         menuChoice=fgetc(stdin);
         // Get store menu choice
-        if(menuChoice==49)exit(0);
+        if(menuChoice==49){
+            clrScrn();
+            exit(0);}
         if(menuChoice==50)Update();
-        if(menuChoice==51)Store();
+        if(menuChoice==51)vaultc();
         if(menuChoice==52)Store();
         if(menuChoice==53)Store();
         if(menuChoice==54)Store();

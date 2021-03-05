@@ -4,7 +4,7 @@
 #include <stdlib.h>
 // Declare variables
 int storeChoice;     
-void ldsifd() {
+void ldsifd(){
     clrScrn();
     printf("lazy-dsi-file-downloader\nBy YourKalamity\n\n");
     printf("Automatically downloads, extracts and places files used for DSi modding.\n\n");
@@ -31,5 +31,24 @@ void ldsifd() {
                 ldsifd();
             #endif 
             }
+        if(storeChoice==50)Store();}
+}
+void vaultc(){
+    clrScrn();
+    printf("theVaultC\nBy NCX-Programming/NinjaCheetah\n\n");
+    printf("An updated and upgraded version of theVault, now in C. Available for Windows, Linux, and Intel Macs. \n\n");
+    printf("Requirements: macOS: 10.12 or later, Linux: 64-bit version of Linux, Windows: 32 or 64-bit version of Windows\n\n");
+    printf("Options:\n1. Download\n2. Return to Store\n");
+    storeChoice=0;
+    while(storeChoice==0||storeChoice=='\n'){
+        storeChoice=0;
+        storeChoice=fgetc(stdin);
+        // Get choice
+        if(storeChoice==49){
+            clrScrn();
+            printf("Downloading...\n");
+            if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){printf("Done.\n");};
+            sleep(1);
+            ldsifd(); }
         if(storeChoice==50)Store();}
 }

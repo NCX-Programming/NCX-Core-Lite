@@ -7,7 +7,7 @@ void ldsifd();
 int cscol();
 int ncxc();
 int fkapt();
-int vaultc();
+void vaultc();
 int c64tl();
 
 #endif /* STORE_DOT_H */
