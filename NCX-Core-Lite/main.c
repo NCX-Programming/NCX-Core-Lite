@@ -62,11 +62,11 @@ void Store(){
     printf("|       |                            |\n");
     printf("|  (5)  |   fake-pacman              |\n");
     printf("|       |                            |\n");
-    printf("|  (6)  |   CSharpCollection (Win)   |\n");
+    printf("|  (6)  |   lazy-dsi-file-downloader |\n");
     printf("|       |                            |\n");
     printf("|  (7)  |   C64-Title-Loader         |\n");
     printf("|       |                            |\n");
-    printf("|  (8)  |   lazy-dsi-file-downloader |\n");
+    printf("|  (8)  |   Empty Slot               |\n");
     printf("|       |                            |\n");
     printf("*=======*============================*\n");
     menuChoice=0;
@@ -81,9 +81,9 @@ void Store(){
         if(menuChoice==51)vaultc();
         if(menuChoice==52)fkapt();
         if(menuChoice==53)fkpcmn();
-        if(menuChoice==54)Store();
-        if(menuChoice==55)Store();
-        if(menuChoice==56)ldsifd();}
+        if(menuChoice==54)ldsifd();
+        if(menuChoice==55)c64tl();
+        if(menuChoice==56)Store();}
 }
 int main(void){
     printf("Loading...\n");

@@ -7,10 +7,9 @@
 
 // Declare store functions
 void ldsifd();
-int cscol();
 void fkpcmn();
 void fkapt();
 void vaultc();
-int c64tl();
+void c64tl();
 
 #endif /* STORE_DOT_H */

@@ -103,3 +103,22 @@ void fkpcmn(){
             }
         if(storeChoice==50)Store();}
 }
+void c64tl(){
+    clrScrn();
+    printf("C64-Title-Loader\nBy IanSkinner1982\n\n");
+    printf("A program to load all of my C64 projects.\n\n");
+    printf("Requirements: VICE Emulator on macOS, Windows, or Linux\n\n");
+    printf("Options:\n1. Download\n2. Return to Store\n");
+    storeChoice=0;
+    while(storeChoice==0||storeChoice=='\n'){
+        storeChoice=0;
+        storeChoice=fgetc(stdin);
+        // Get choice
+        if(storeChoice==49){
+            clrScrn();
+            printf("Downloading...\n");
+            if(!Download("https://github.com/IanSkinner1982/C64-title-loader/releases/latest/download/loader.d64", "loader.d64")){printf("Done.\n");};
+            sleep(1);
+            c64tl(); }
+        if(storeChoice==50)Store();}
+}
