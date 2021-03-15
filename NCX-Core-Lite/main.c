@@ -77,6 +77,21 @@ int main(int argc,char *argv[]){
     button = gtk_builder_get_object (builder, "button2");
     g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
 
+    button=gtk_builder_get_object(builder,"button3");
+    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
+    button=gtk_builder_get_object(builder,"button4");
+    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
+    button=gtk_builder_get_object(builder,"button5");
+    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
+    button=gtk_builder_get_object(builder,"button6");
+    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
+    button=gtk_builder_get_object(builder,"aboutBtn");
+    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+
     button = gtk_builder_get_object (builder, "quit");
     g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
