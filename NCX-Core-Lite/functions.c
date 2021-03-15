@@ -3,6 +3,7 @@
 //Copyright (C) 2021 NCX-Programming
 #include "functions.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
 // Not really sure what this code does but it helps with downloading stuff so its important
@@ -38,4 +39,5 @@ int Download(const char *url, const char *file){
         // Cleanup stuff
         curl_easy_cleanup(curl);
         fclose(fp); }
+    return(0);
 }

@@ -6,6 +6,7 @@
 #include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 // Declare variables
 int storeChoice;     
 void ldsifd(){

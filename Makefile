@@ -4,9 +4,11 @@ linux:
 	mkdir -p bin/
 	gcc -Wall -c NCX-Core-Lite/store.c -o bin/store.o
 	gcc -Wall -c NCX-Core-Lite/functions.c -lcurl -o bin/functions.o
-	gcc -Wall -c NCX-Core-Lite/main.c -lcurl -o bin/main.o
-	gcc bin/store.o bin/functions.o bin/main.o -lcurl -o bin/NCX-Core-Lite
-	rm bin/store.o bin/functions.o bin/main.o
+	gcc -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	gcc -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	gcc bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-Lite
+	cp NCX-Core-Lite/builder.ui bin/
+	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 win32:
 	mkdir -p bin/
