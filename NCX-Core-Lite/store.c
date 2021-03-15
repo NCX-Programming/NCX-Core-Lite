@@ -1,6 +1,7 @@
 //NCX-Core-Lite "store.c"
 //Copyright (C) 2021 NinjaCheetah
 //Copyright (C) 2021 NCX-Programming
+#include "cli.h"
 #include "store.h"
 #include "functions.h"
 #include <stdio.h>

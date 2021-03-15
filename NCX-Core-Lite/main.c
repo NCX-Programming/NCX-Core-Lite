@@ -9,83 +9,18 @@
 #include <string.h>
 #include <errno.h>
 #include <dirent.h>
+#include <gtk/gtk.h>
 #include "store.h"
 #include "functions.h"
+#include "cli.h"
 // Declare functions
-void Store();
-int Download();
 // Declare variables
-int menuChoice;
+int guiChoice;
 // Start code
-void Update(){
-    #ifdef _WIN32
-    #endif
-    #ifdef unix
-        clrScrn();
-        printf("Downloading...");
-        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-Lite-linux.zip", "NCX-Core-Lite-linux.zip")){printf("error\n");};
-        clrScrn();
-        printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
-        printf("Press ENTER to return to the store.\n");
-        getchar();
-        getchar();
-        menuChoice=0;
-        Store();
-    #endif
-    #ifdef __APPLE__
-        clrScrn();
-        printf("Downloading...");
-        if(!Download("https://github.com/NCX-Programming/NCX-Core-Lite/releases/latest/download/NCX-Core-Lite-X86.zip", "NCX-Core-Lite-X86.zip")){printf("error\n");};
-        clrScrn();
-        printf("Self-updating is still a WIP. A zip file containing the latest release has been downloaded, however you will have to extract it yourself.\n\n");
-        printf("Press ENTER to return to the store.\n");
-        getchar();
-        menuChoice=0;
-        Store();
-    #endif
+static void print_hello(GtkWidget *widget,gpointer data){
+    g_print("Hello World!\n");
 }
-void Store(){
-    clrScrn();
-    printf("*====================================*\n");
-    printf("| \e[1;97mXStore-Lite\e[0m                        |\n");
-    printf("*=======*============================*\n");
-    printf("|       |                            |\n");
-    printf("|  (1)  |   Exit Program             |\n");
-    printf("|       |                            |\n");
-    printf("|  (2)  |   Update NCX-Core-Lite     |\n");
-    printf("|       |                            |\n");
-    printf("|       | Programs:                  |\n");
-    printf("|       |                            |\n");
-    printf("|  (3)  |   theVaultC                |\n");
-    printf("|       |                            |\n");
-    printf("|  (4)  |   fakeApt                  |\n");
-    printf("|       |                            |\n");
-    printf("|  (5)  |   fake-pacman              |\n");
-    printf("|       |                            |\n");
-    printf("|  (6)  |   lazy-dsi-file-downloader |\n");
-    printf("|       |                            |\n");
-    printf("|  (7)  |   C64-Title-Loader         |\n");
-    printf("|       |                            |\n");
-    printf("|  (8)  |   Empty Slot               |\n");
-    printf("|       |                            |\n");
-    printf("*=======*============================*\n");
-    menuChoice=0;
-    while(menuChoice==0||menuChoice=='\n'){
-        menuChoice=0;
-        menuChoice=fgetc(stdin);
-        // Get store menu choice
-        if(menuChoice==49){
-            clrScrn();
-            exit(0);}
-        if(menuChoice==50)Update();
-        if(menuChoice==51)vaultc();
-        if(menuChoice==52)fkapt();
-        if(menuChoice==53)fkpcmn();
-        if(menuChoice==54)ldsifd();
-        if(menuChoice==55)c64tl();
-        if(menuChoice==56)Store();}
-}
-int main(void){
+int main(int argc,char *argv[]){
     printf("Loading...\n");
     DIR* dir = opendir("tmp");
     if (dir) {
@@ -111,5 +46,41 @@ int main(void){
     // Prompt to continue to the store (currently you have no choice- *you must shop*)
     printf("Press ENTER to view available software");
     getchar();
-    Store();
+
+    printf("Use classic CLI interface? y/n \n");
+    while(guiChoice==0){
+        guiChoice=0;
+        guiChoice=fgetc(stdin);
+        if(guiChoice==89||guiChoice==121) Store();
+        if(guiChoice==78||guiChoice==110) {}}
+    
+    GtkBuilder *builder;
+    GObject *window;
+    GObject *button;
+    GError *error = NULL;
+
+    gtk_init (&argc, &argv);
+    // Construct a GtkBuilder instance and load our UI description
+    builder = gtk_builder_new ();
+    if(gtk_builder_add_from_file(builder, "builder.ui", &error) == 0){
+        g_printerr ("Error loading file: %s\n", error->message);
+        g_clear_error (&error);
+        return 1;
+    }
+    // Connect signal handlers to the constructed widgets.
+    window = gtk_builder_get_object (builder, "window");
+    g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+
+    button = gtk_builder_get_object (builder, "button1");
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+    button = gtk_builder_get_object (builder, "button2");
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+    button = gtk_builder_get_object (builder, "quit");
+    g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
+
+    gtk_main();
+
+    return 0;
 }
