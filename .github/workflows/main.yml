@@ -12,7 +12,13 @@ jobs:
   build-linux:
 
     runs-on: ubuntu-latest
-
+    outputs:
+      commit_tag: ${{ steps.build-linux.outputs.commit_tag }}
+      commit_hash: ${{ steps.build-linux.outputs.commit_hash }}
+      author_name: ${{ steps.build-linux.outputs.author_name }}
+      committer_name: ${{ steps.build-linux.outputs.committer_name }}
+      commit_subject: ${{ steps.build-linux.outputs.commit_subject }}
+      commit_message: ${{ steps.build-linux.outputs.commit_message }}
     steps:
     - uses: actions/checkout@v2
     - name: Install Dependencies
