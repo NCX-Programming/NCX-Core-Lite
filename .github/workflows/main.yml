@@ -1,0 +1,75 @@
+name: make all
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        apt update && \
+        apt install -y libcurl4-nss-dev libgtk-3-dev
+    - name: Build Linux
+      run: make linux
+    - name: Pack Build Files
+      run: |
+        mkdir ~/NCX-Core-Lite-linux
+        mv bin/* ~/NCX-Core-Lite-linux
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/NCX-Core-Lite-linux/*
+        name: NCX-Core-Lite-linux
+  build-macos-intel:
+
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        brew install curl
+        brew install gtk+3
+    - name: Build macOS
+      run: make macX86
+    - name: Pack Build Files
+      run: |
+        mkdir ~/NCX-Core-Lite-macX86
+        mv bin/* ~/NCX-Core-Lite-macX86
+    - name: Publish Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        path: ~/NCX-Core-Lite-macX86
+        name: NCX-Core-Lite-macX86
+  # Uncomment job once macOS 11 is available
+  #build-macos-arm:
+
+    #runs-on: macos-11.0
+
+    #steps:
+    #- uses: actions/checkout@v2
+    #- name: Install Dependencies
+      #run: |
+        #brew install curl
+        #brew install gtk+3
+    #- name: Build macOS
+      #run: make macARM
+    #- name: Pack Build Files
+      #run: |
+        #mkdir ~/theVaultC-macARM
+        #mv bin/* ~/theVaultC-macARM
+    #- name: Publish Build Files
+      #uses: actions/upload-artifact@v2
+      #with:
+        #path: ~/theVaultC-macARM
+        #name: theVaultC-macARM
