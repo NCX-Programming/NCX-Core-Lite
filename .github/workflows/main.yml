@@ -19,6 +19,7 @@ jobs:
       committer_name: ${{ steps.build-linux.outputs.committer_name }}
       commit_subject: ${{ steps.build-linux.outputs.commit_subject }}
       commit_message: ${{ steps.build-linux.outputs.commit_message }}
+      current_date: ${{ steps.commit.outputs.current_date }}
     steps:
     - uses: actions/checkout@v2
     - name: Install Dependencies
@@ -83,11 +84,11 @@ jobs:
       name: Send Discord webhook
       if: ${{ !startsWith(github.ref, 'refs/pull') }}
       env:
-        CURRENT_DATE: ${{ needs.publish_build.outputs.current_date }}
-        AUTHOR_NAME: ${{ needs.build.outputs.author_name }}
-        COMMITTER_NAME: ${{ needs.build.outputs.committer_name }}
-        COMMIT_SUBJECT: ${{ needs.build.outputs.commit_subject }}
-        COMMIT_MESSAGE: ${{ needs.build.outputs.commit_message }}
+        CURRENT_DATE: ${{ needs.build-linux.outputs.current_date }}
+        AUTHOR_NAME: ${{ needs.build-linux.outputs.author_name }}
+        COMMITTER_NAME: ${{ needs.build-linux.outputs.committer_name }}
+        COMMIT_SUBJECT: ${{ needs.build-linux.outputs.commit_subject }}
+        COMMIT_MESSAGE: ${{ needs.build-linux.outputs.commit_message }}
       steps:
         - name: Send success webhook
           if: ${{ success() }}
