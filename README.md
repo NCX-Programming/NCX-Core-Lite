@@ -14,7 +14,7 @@ For more info visit:
 Stats
 <br>
 <a href="https://github.com/NCX-Programming/NCX-Core-Lite/workflows/make%20all/badge.svg?branch=master" style="padding-left: 5px; padding-right: 5px;">
-		<img src="https://github.com/NCX-Programming/NCX-Core-Lite/workflows/make%20all/badge.svg?branch=master" height="20"/>
+		<img src="https://github.com/NCX-Programming/NCX-Core-Lite/workflows/make%20all/badge.svg?branch=main" height="20"/>
 	</a>
 <a href="https://img.shields.io/maintenance/yes/2021?label=Maintained" style="padding-left: 5px; padding-right: 5px;">
 		<img src="https://img.shields.io/maintenance/yes/2021?label=Maintained" height="20"/>
