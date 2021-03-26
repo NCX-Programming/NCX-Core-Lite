@@ -3,6 +3,7 @@
 //Copyright (C) 2021 NCX-Programming
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -19,6 +20,78 @@ int guiChoice;
 // Start code
 static void print_hello(GtkWidget *widget,gpointer data){
     g_print("Hello World!\n");
+}
+static void activate(GtkApplication *app,gpointer user_data){
+  GtkWidget *window;
+  GtkWidget *grid;
+  GtkWidget *box;
+  GtkWidget *button;
+  GtkWidget *menubar;
+  GtkWidget *fileMenu;
+  GtkWidget *fileMi;
+  GtkWidget *quitMi;
+  GtkWidget *title=gtk_label_new(NULL);
+  GtkWidget *status=gtk_label_new("Ready.");
+  // Create a new window and set title
+  window=gtk_application_window_new(app);
+  gtk_window_set_title(GTK_WINDOW(window),"NCX-Core-Lite");
+  gtk_window_set_default_size(GTK_WINDOW(window),440,250);
+  gtk_window_set_resizable(GTK_WINDOW(window),FALSE);
+  // Make a menu bar and menu items
+  menubar=gtk_menu_bar_new();
+  fileMenu=gtk_menu_new();
+  fileMi=gtk_menu_item_new_with_label("File");
+  quitMi=gtk_menu_item_new_with_label("Quit");
+  // Set up menu bar
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMi),fileMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu),quitMi);
+  g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar),fileMi);
+  // Make a new box to hold a menu bar and the grid
+  box=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+  // Here we construct the container that is going pack our buttons
+  grid=gtk_grid_new();
+  gtk_container_set_border_width(GTK_CONTAINER(grid),8);
+  gtk_grid_set_column_homogeneous (GTK_GRID(grid),true);
+  // Pack the box in the window
+  gtk_container_add(GTK_CONTAINER(window),box);
+  // Pack the menu bar inside the box
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(menubar),false,false,0);
+  // Create and pack labels (BEFORE THE GRID!)
+  // main title label
+  const char *str="NCX-Core-Lite";
+  const char *format="<span font-size=\"17000\">\%s</span>";
+  char *markup;
+  markup=g_markup_printf_escaped(format,str);
+  gtk_label_set_markup(GTK_LABEL(title),markup);
+  g_free(markup);
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(title),false,false,0);
+  // small status label
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(status),false,false,0);
+  // Pack the grid inside the box
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
+  // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
+  button=gtk_button_new_with_label("Button 1");
+  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  gtk_grid_attach(GTK_GRID(grid),button,0,0,1,1);
+  // Button 2, place at cell (1,0) and take up 1 space vertically and horizontally
+  button=gtk_button_new_with_label("Button 2");
+  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  gtk_grid_attach(GTK_GRID(grid),button,1,0,1,1);
+  // Button 3, place at cell (0,1) and take up 1 space vertically and horizontally
+  button=gtk_button_new_with_label("Button 3");
+  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  gtk_grid_attach(GTK_GRID(grid),button,0,1,1,1);
+  // Button 4, place at cell (1,1) and take up 1 space vertically and horizontally
+  button=gtk_button_new_with_label("Button 4");
+  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  gtk_grid_attach(GTK_GRID(grid),button,1,1,1,1);
+  // Quit button, place at cell (0,2) and take up 1 space vertically and 2 spaces horizontally
+  button=gtk_button_new_with_label("Quit");
+  g_signal_connect_swapped(button,"clicked",G_CALLBACK(gtk_widget_destroy),window);
+  gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 2, 1);
+  // Show all of the widgets now that they're set up
+  gtk_widget_show_all (window);
 }
 int main(int argc,char *argv[]){
     printf("Loading...\n");
@@ -53,45 +126,14 @@ int main(int argc,char *argv[]){
         guiChoice=fgetc(stdin);
         if(guiChoice==89||guiChoice==121) Store();
         if(guiChoice==78||guiChoice==110) {}}
-    
-    GtkBuilder *builder;
-    GObject *window;
-    GObject *button;
-    GError *error = NULL;
 
-    gtk_init (&argc, &argv);
-    // Construct a GtkBuilder instance and load our UI description
-    builder = gtk_builder_new ();
-    if(gtk_builder_add_from_file(builder, "builder.ui", &error) == 0){
-        g_printerr ("Error loading file: %s\n", error->message);
-        g_clear_error (&error);
-        return 1;
-    }
-    // Connect signal handlers to the constructed widgets.
-    window = gtk_builder_get_object (builder, "window");
-    g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+    GtkApplication *app;
+    int status;
 
-    button = gtk_builder_get_object (builder, "button1");
-    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+    status = g_application_run (G_APPLICATION (app), argc, argv);
+    g_object_unref (app);
 
-    button = gtk_builder_get_object (builder, "button2");
-    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-
-    button=gtk_builder_get_object(builder,"button3");
-    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
-
-    button=gtk_builder_get_object(builder,"button4");
-    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
-
-    button=gtk_builder_get_object(builder,"button5");
-    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
-
-    button=gtk_builder_get_object(builder,"button6");
-    g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
-
-    button=gtk_builder_get_object(builder, "quit");
-    g_signal_connect(button,"activate",G_CALLBACK(gtk_main_quit),NULL);
-
-    gtk_main();
-    return 0;
+    return status;
 }
