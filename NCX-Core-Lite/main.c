@@ -30,6 +30,9 @@ static void activate(GtkApplication *app,gpointer user_data){
   GtkWidget *fileMenu;
   GtkWidget *fileMi;
   GtkWidget *quitMi;
+  GtkWidget *helpMenu;
+  GtkWidget *helpMi;
+  GtkWidget *aboutMi;
   GtkWidget *title=gtk_label_new(NULL);
   GtkWidget *status=gtk_label_new("Ready.");
   // Create a new window and set title
@@ -41,18 +44,24 @@ static void activate(GtkApplication *app,gpointer user_data){
   menubar=gtk_menu_bar_new();
   fileMenu=gtk_menu_new();
   fileMi=gtk_menu_item_new_with_label("File");
-  quitMi=gtk_menu_item_new_with_label("Quit");
+  quitMi=gtk_menu_item_new_with_label("_Quit");
+  helpMenu=gtk_menu_new();
+  helpMi=gtk_menu_item_new_with_label("Help");
+  aboutMi=gtk_menu_item_new_with_label("About");
   // Set up menu bar
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMi),fileMenu);
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu),quitMi);
-  g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar),fileMi);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(helpMi),helpMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu),aboutMi);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar),helpMi);
+  g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
   // Make a new box to hold a menu bar and the grid
   box=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   // Here we construct the container that is going pack our buttons
   grid=gtk_grid_new();
   gtk_container_set_border_width(GTK_CONTAINER(grid),8);
-  gtk_grid_set_column_homogeneous (GTK_GRID(grid),true);
+  gtk_grid_set_column_homogeneous(GTK_GRID(grid),true);
   // Pack the box in the window
   gtk_container_add(GTK_CONTAINER(window),box);
   // Pack the menu bar inside the box
@@ -65,6 +74,8 @@ static void activate(GtkApplication *app,gpointer user_data){
   markup=g_markup_printf_escaped(format,str);
   gtk_label_set_markup(GTK_LABEL(title),markup);
   g_free(markup);
+  gtk_widget_set_margin_top(GTK_WIDGET(title),8);
+  gtk_widget_set_margin_bottom(GTK_WIDGET(title),3);
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(title),false,false,0);
   // small status label
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(status),false,false,0);
