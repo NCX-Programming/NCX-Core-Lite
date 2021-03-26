@@ -36,6 +36,6 @@ Stats
 - 64-bit install of Linux
 - libcurl (can be obtained using `sudo apt install libcurl4-nss-dev`)
 - GTK+ 3 (can be obtained using `sudo apt install libgtk-3-0 libgtk-3-dev`)
-Builds are automatically compiled for 64-bit Linux and Intel Macs and are available ![here](https://github.com/NCX-Programming/NCX-Core-Lite/actions), however if you want to build it yourself then instructions are ![here](https://github.com/NCX-Programming/NCX-Core-Lite/blob/main/BUILD.md).
+### Builds are automatically compiled for 64-bit Linux and Intel Macs and are available ![here](https://github.com/NCX-Programming/NCX-Core-Lite/actions), however if you want to build it yourself then instructions are ![here](https://github.com/NCX-Programming/NCX-Core-Lite/blob/main/BUILD.md).
 # Credits
 - [@IanSkinner1982](https://github.com/IanSkinner1982/) For writing the NCX-Core README (which was used as a base here)

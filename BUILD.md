@@ -16,4 +16,5 @@ Available platforms:
 - `make linux` for 64-bit Linux
 - `make macX86` for Intel-based Macs
 - `make macARM` for ARM-based Macs
+<br />
 Builds will be placed in the bin/ directory. You can remove it and all builds with `make clean`.
