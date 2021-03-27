@@ -25,6 +25,9 @@ static void show_about(GtkWidget *widget,gpointer data){
   GdkPixbuf *logo=gdk_pixbuf_new_from_file("./logo.png",NULL);
   gtk_show_about_dialog(NULL,"program-name","NCX-Core-Lite","logo",logo,"version","v0.3","title","About NCX-Core-Lite","license-type",GTK_LICENSE_GPL_3_0,"website","https://ncx-programming.github.io/site/programs/ncxcorelite","copyright","Copyright (c) 2021 NCX-Programming/NinjaCheetah",NULL);
 }
+static void download_software(gint selection,GtkWidget *widget,gpointer data){
+  exit(0);
+}
 static void activate(GtkApplication *app,gpointer user_data){
   GtkWidget *window;
   GtkWidget *grid;
@@ -67,6 +70,8 @@ static void activate(GtkApplication *app,gpointer user_data){
   grid=gtk_grid_new();
   gtk_container_set_border_width(GTK_CONTAINER(grid),8);
   gtk_grid_set_column_homogeneous(GTK_GRID(grid),true);
+  gtk_grid_set_row_spacing(GTK_GRID(grid),6);
+  gtk_grid_set_column_spacing(GTK_GRID(grid),6);
   // Pack the box in the window
   gtk_container_add(GTK_CONTAINER(window),box);
   // Pack the menu bar inside the box
@@ -88,7 +93,7 @@ static void activate(GtkApplication *app,gpointer user_data){
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
   // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
   button=gtk_button_new_with_label("Button 1");
-  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  g_signal_connect(button,"clicked",G_CALLBACK(download_software),NULL);
   gtk_grid_attach(GTK_GRID(grid),button,0,0,1,1);
   // Button 2, place at cell (1,0) and take up 1 space vertically and horizontally
   button=gtk_button_new_with_label("Button 2");
