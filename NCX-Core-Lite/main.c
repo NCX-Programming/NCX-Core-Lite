@@ -21,6 +21,10 @@ int guiChoice;
 static void print_hello(GtkWidget *widget,gpointer data){
     g_print("Hello World!\n");
 }
+static void show_about(GtkWidget *widget,gpointer data){
+  GdkPixbuf *logo=gdk_pixbuf_new_from_file("./logo.png",NULL);
+  gtk_show_about_dialog(NULL,"program-name","NCX-Core-Lite","logo",logo,"version","v0.3","title","About NCX-Core-Lite","license-type",GTK_LICENSE_GPL_3_0,"website","https://ncx-programming.github.io/site/programs/ncxcorelite","copyright","Copyright (c) 2021 NCX-Programming/NinjaCheetah",NULL);
+}
 static void activate(GtkApplication *app,gpointer user_data){
   GtkWidget *window;
   GtkWidget *grid;
@@ -44,7 +48,7 @@ static void activate(GtkApplication *app,gpointer user_data){
   menubar=gtk_menu_bar_new();
   fileMenu=gtk_menu_new();
   fileMi=gtk_menu_item_new_with_label("File");
-  quitMi=gtk_menu_item_new_with_label("_Quit");
+  quitMi=gtk_menu_item_new_with_label("Quit");
   helpMenu=gtk_menu_new();
   helpMi=gtk_menu_item_new_with_label("Help");
   aboutMi=gtk_menu_item_new_with_label("About");
@@ -56,6 +60,7 @@ static void activate(GtkApplication *app,gpointer user_data){
   gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu),aboutMi);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar),helpMi);
   g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
+  g_signal_connect_swapped(G_OBJECT(aboutMi),"activate",G_CALLBACK(show_about),NULL);
   // Make a new box to hold a menu bar and the grid
   box=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   // Here we construct the container that is going pack our buttons
