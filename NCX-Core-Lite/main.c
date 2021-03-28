@@ -18,6 +18,10 @@
 // Declare variables
 int guiChoice;
 // Start code
+typedef struct {
+    // Labels
+    GtkWidget *statuslabel;
+} app_widgets;
 static void print_hello(GtkWidget *widget,gpointer data){
     g_print("Hello World!\n");
 }
@@ -25,10 +29,16 @@ static void show_about(GtkWidget *widget,gpointer data){
   GdkPixbuf *logo=gdk_pixbuf_new_from_file("./logo.png",NULL);
   gtk_show_about_dialog(NULL,"program-name","NCX-Core-Lite","logo",logo,"version","v0.3","title","About NCX-Core-Lite","license-type",GTK_LICENSE_GPL_3_0,"website","https://ncx-programming.github.io/site/programs/ncxcorelite","copyright","Copyright (c) 2021 NCX-Programming/NinjaCheetah",NULL);
 }
-static void download_software(gint selection,GtkWidget *widget,gpointer data){
-  exit(0);
+static void button1_download(GtkButton *button,app_widgets *wdgts){
+  app_widgets *widgets = g_slice_new(app_widgets);
+  gtk_label_set_text(GTK_LABEL(widgets->statuslabel),"Downloading...");
+  gtk_widget_show(GTK_WIDGET(widgets->statuslabel));
+  while(gtk_events_pending())
+	 gtk_main_iteration();
+  //if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){printf("Done.\n");};
+
 }
-static void activate(GtkApplication *app,gpointer user_data){
+static void activate(GtkApplication *app,app_widgets *wdgts){
   GtkWidget *window;
   GtkWidget *grid;
   GtkWidget *box;
@@ -41,7 +51,8 @@ static void activate(GtkApplication *app,gpointer user_data){
   GtkWidget *helpMi;
   GtkWidget *aboutMi;
   GtkWidget *title=gtk_label_new(NULL);
-  GtkWidget *status=gtk_label_new("Ready.");
+  app_widgets *widgets=g_slice_new(app_widgets);
+  //GtkWidget *status=gtk_label_new("Ready.");
   // Create a new window and set title
   window=gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window),"NCX-Core-Lite");
@@ -88,12 +99,13 @@ static void activate(GtkApplication *app,gpointer user_data){
   gtk_widget_set_margin_bottom(GTK_WIDGET(title),3);
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(title),false,false,0);
   // small status label
-  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(status),false,false,0);
+  widgets->statuslabel=gtk_label_new("Ready.");
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(widgets->statuslabel),false,false,0);
   // Pack the grid inside the box
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
   // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
   button=gtk_button_new_with_label("Button 1");
-  g_signal_connect(button,"clicked",G_CALLBACK(download_software),NULL);
+  g_signal_connect(button,"clicked",G_CALLBACK(button1_download),NULL);
   gtk_grid_attach(GTK_GRID(grid),button,0,0,1,1);
   // Button 2, place at cell (1,0) and take up 1 space vertically and horizontally
   button=gtk_button_new_with_label("Button 2");
@@ -112,7 +124,8 @@ static void activate(GtkApplication *app,gpointer user_data){
   g_signal_connect_swapped(button,"clicked",G_CALLBACK(gtk_widget_destroy),window);
   gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 2, 1);
   // Show all of the widgets now that they're set up
-  gtk_widget_show_all (window);
+  gtk_widget_show_all(window);
+  g_slice_free(app_widgets,widgets);
 }
 int main(int argc,char *argv[]){
     printf("Loading...\n");
@@ -151,10 +164,10 @@ int main(int argc,char *argv[]){
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
-    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-    status = g_application_run (G_APPLICATION (app), argc, argv);
-    g_object_unref (app);
+    app=gtk_application_new("org.ncx-programming.ncx-core-lite",G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app,"activate",G_CALLBACK(activate),NULL);
+    status=g_application_run(G_APPLICATION(app),argc,argv);
+    g_object_unref(app);
 
     return status;
 }
