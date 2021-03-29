@@ -17,6 +17,9 @@
 // Declare functions
 // Declare variables
 int guiChoice;
+char usr[32];
+char dwnldDirM[64]="/Users/";
+char dwnldDirU[64]="/home/";
 // Start code
 typedef struct {
     // Labels
@@ -29,14 +32,22 @@ static void show_about(GtkWidget *widget,gpointer data){
   GdkPixbuf *logo=gdk_pixbuf_new_from_file("./logo.png",NULL);
   gtk_show_about_dialog(NULL,"program-name","NCX-Core-Lite","logo",logo,"version","v0.3","title","About NCX-Core-Lite","license-type",GTK_LICENSE_GPL_3_0,"website","https://ncx-programming.github.io/site/programs/ncxcorelite","copyright","Copyright (c) 2021 NCX-Programming/NinjaCheetah",NULL);
 }
+void download_software(int selection){
+  #ifdef unix
+    chdir(dwnldDirU);
+  #endif
+  #ifdef __APPLE__
+    chdir(dwnldDirM);
+  #endif
+  if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){g_print("Done.\n");};
+}
 static void button1_download(GtkButton *button,app_widgets *wdgts){
-  app_widgets *widgets = g_slice_new(app_widgets);
-  gtk_label_set_text(GTK_LABEL(widgets->statuslabel),"Downloading...");
-  gtk_widget_show(GTK_WIDGET(widgets->statuslabel));
-  while(gtk_events_pending())
-	 gtk_main_iteration();
-  //if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){printf("Done.\n");};
-
+  //app_widgets *widgets = g_slice_new(app_widgets);
+  //gtk_label_set_text(GTK_LABEL(widgets->statuslabel),"Downloading...");
+  //gtk_widget_show(GTK_WIDGET(widgets->statuslabel));
+  //while(gtk_events_pending())
+	 //gtk_main_iteration();
+  download_software(1);
 }
 static void activate(GtkApplication *app,app_widgets *wdgts){
   GtkWidget *window;
@@ -104,7 +115,7 @@ static void activate(GtkApplication *app,app_widgets *wdgts){
   // Pack the grid inside the box
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
   // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
-  button=gtk_button_new_with_label("Button 1");
+  button=gtk_button_new_with_label("theVaultC");
   g_signal_connect(button,"clicked",G_CALLBACK(button1_download),NULL);
   gtk_grid_attach(GTK_GRID(grid),button,0,0,1,1);
   // Button 2, place at cell (1,0) and take up 1 space vertically and horizontally
@@ -128,6 +139,15 @@ static void activate(GtkApplication *app,app_widgets *wdgts){
   g_slice_free(app_widgets,widgets);
 }
 int main(int argc,char *argv[]){
+    getlogin_r(usr,32);
+    #ifdef unix
+      strcat(dwnldDirU,usr);
+      strcat(dwnldDirU,"/Downloads");
+    #endif
+    #ifdef __APPLE__
+      strcat(dwnldDirM,usr);
+      strcat(dwnldDirM,"/Downloads");
+    #endif
     printf("Loading...\n");
     DIR* dir = opendir("tmp");
     if (dir) {
