@@ -21,15 +21,29 @@ win64:
 macX86:
 	mkdir -p bin/
 	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -lcurl -o bin/functions.o
+	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
 	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
 	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
-	gcc -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteX86 
+	gcc -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteX86
+	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
+
+macX86app:
+	mkdir -p bin/
+	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
+	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
+	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	gcc -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteX86.app
 	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 macARM:
 	mkdir -p bin/
-	gcc -o bin/NCX-Core-LiteARM -target arm64-apple-macos11 NCX-Core-Lite/main.c
+	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
+	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
+	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	gcc -target arm64-apple-macos11 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteARM
+	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 clean:
 	rm -rf bin/* rm -d bin/

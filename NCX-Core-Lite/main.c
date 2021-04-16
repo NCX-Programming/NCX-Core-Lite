@@ -29,11 +29,39 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Declare functions
 // Declare variables
 int guiChoice;
+char usr[32];
+char dwnldDirM[64]="/Users/";
+char dwnldDirU[64]="/home/";
 // Start code
+typedef struct {
+    // Labels
+    GtkWidget *statuslabel;
+} app_widgets;
 static void print_hello(GtkWidget *widget,gpointer data){
     g_print("Hello World!\n");
 }
-static void activate(GtkApplication *app,gpointer user_data){
+static void show_about(GtkWidget *widget,gpointer data){
+  GdkPixbuf *logo=gdk_pixbuf_new_from_file("./logo.png",NULL);
+  gtk_show_about_dialog(NULL,"program-name","NCX-Core-Lite","logo",logo,"version","v0.3","title","About NCX-Core-Lite","license-type",GTK_LICENSE_GPL_3_0,"website","https://ncx-programming.github.io/site/programs/ncxcorelite","copyright","Copyright (c) 2021 NCX-Programming/NinjaCheetah",NULL);
+}
+void download_software(int selection){
+  #ifdef unix
+    chdir(dwnldDirU);
+  #endif
+  #ifdef __APPLE__
+    chdir(dwnldDirM);
+  #endif
+  if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){g_print("Done.\n");};
+}
+static void button1_download(GtkButton *button,app_widgets *wdgts){
+  //app_widgets *widgets = g_slice_new(app_widgets);
+  //gtk_label_set_text(GTK_LABEL(widgets->statuslabel),"Downloading...");
+  //gtk_widget_show(GTK_WIDGET(widgets->statuslabel));
+  //while(gtk_events_pending())
+	 //gtk_main_iteration();
+  download_software(1);
+}
+static void activate(GtkApplication *app,app_widgets *wdgts){
   GtkWidget *window;
   GtkWidget *grid;
   GtkWidget *box;
@@ -42,8 +70,12 @@ static void activate(GtkApplication *app,gpointer user_data){
   GtkWidget *fileMenu;
   GtkWidget *fileMi;
   GtkWidget *quitMi;
+  GtkWidget *helpMenu;
+  GtkWidget *helpMi;
+  GtkWidget *aboutMi;
   GtkWidget *title=gtk_label_new(NULL);
-  GtkWidget *status=gtk_label_new("Ready.");
+  app_widgets *widgets=g_slice_new(app_widgets);
+  //GtkWidget *status=gtk_label_new("Ready.");
   // Create a new window and set title
   window=gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window),"NCX-Core-Lite");
@@ -54,17 +86,26 @@ static void activate(GtkApplication *app,gpointer user_data){
   fileMenu=gtk_menu_new();
   fileMi=gtk_menu_item_new_with_label("File");
   quitMi=gtk_menu_item_new_with_label("Quit");
+  helpMenu=gtk_menu_new();
+  helpMi=gtk_menu_item_new_with_label("Help");
+  aboutMi=gtk_menu_item_new_with_label("About");
   // Set up menu bar
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMi),fileMenu);
   gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu),quitMi);
-  g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar),fileMi);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(helpMi),helpMenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu),aboutMi);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar),helpMi);
+  g_signal_connect_swapped(G_OBJECT(quitMi),"activate",G_CALLBACK(gtk_widget_destroy),window);
+  g_signal_connect_swapped(G_OBJECT(aboutMi),"activate",G_CALLBACK(show_about),NULL);
   // Make a new box to hold a menu bar and the grid
   box=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   // Here we construct the container that is going pack our buttons
   grid=gtk_grid_new();
   gtk_container_set_border_width(GTK_CONTAINER(grid),8);
-  gtk_grid_set_column_homogeneous (GTK_GRID(grid),true);
+  gtk_grid_set_column_homogeneous(GTK_GRID(grid),true);
+  gtk_grid_set_row_spacing(GTK_GRID(grid),6);
+  gtk_grid_set_column_spacing(GTK_GRID(grid),6);
   // Pack the box in the window
   gtk_container_add(GTK_CONTAINER(window),box);
   // Pack the menu bar inside the box
@@ -77,14 +118,17 @@ static void activate(GtkApplication *app,gpointer user_data){
   markup=g_markup_printf_escaped(format,str);
   gtk_label_set_markup(GTK_LABEL(title),markup);
   g_free(markup);
+  gtk_widget_set_margin_top(GTK_WIDGET(title),8);
+  gtk_widget_set_margin_bottom(GTK_WIDGET(title),3);
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(title),false,false,0);
   // small status label
-  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(status),false,false,0);
+  widgets->statuslabel=gtk_label_new("Ready.");
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(widgets->statuslabel),false,false,0);
   // Pack the grid inside the box
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
   // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
-  button=gtk_button_new_with_label("Button 1");
-  g_signal_connect(button,"clicked",G_CALLBACK(print_hello),NULL);
+  button=gtk_button_new_with_label("theVaultC");
+  g_signal_connect(button,"clicked",G_CALLBACK(button1_download),NULL);
   gtk_grid_attach(GTK_GRID(grid),button,0,0,1,1);
   // Button 2, place at cell (1,0) and take up 1 space vertically and horizontally
   button=gtk_button_new_with_label("Button 2");
@@ -103,9 +147,19 @@ static void activate(GtkApplication *app,gpointer user_data){
   g_signal_connect_swapped(button,"clicked",G_CALLBACK(gtk_widget_destroy),window);
   gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 2, 1);
   // Show all of the widgets now that they're set up
-  gtk_widget_show_all (window);
+  gtk_widget_show_all(window);
+  g_slice_free(app_widgets,widgets);
 }
 int main(int argc,char *argv[]){
+    getlogin_r(usr,32);
+    #ifdef unix
+      strcat(dwnldDirU,usr);
+      strcat(dwnldDirU,"/Downloads");
+    #endif
+    #ifdef __APPLE__
+      strcat(dwnldDirM,usr);
+      strcat(dwnldDirM,"/Downloads");
+    #endif
     printf("Loading...\n");
     DIR* dir = opendir("tmp");
     if (dir) {
@@ -142,10 +196,10 @@ int main(int argc,char *argv[]){
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
-    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-    status = g_application_run (G_APPLICATION (app), argc, argv);
-    g_object_unref (app);
+    app=gtk_application_new("org.ncx-programming.ncx-core-lite",G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app,"activate",G_CALLBACK(activate),NULL);
+    status=g_application_run(G_APPLICATION(app),argc,argv);
+    g_object_unref(app);
 
     return status;
 }
