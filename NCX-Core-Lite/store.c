@@ -1,6 +1,18 @@
-//NCX-Core-Lite "store.c"
-//Copyright (C) 2021 NinjaCheetah
-//Copyright (C) 2021 NCX-Programming
+/*NCX-Core-Lite "store.c"
+Copyright (C) 2021 NinjaCheetah
+Copyright (C) 2021 NCX-Programming
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "cli.h"
 #include "store.h"
 #include "functions.h"
@@ -8,7 +20,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 // Declare variables
-int storeChoice;     
+int storeChoice;
 void ldsifd(){
     clrScrn();
     printf("lazy-dsi-file-downloader\nBy YourKalamity\n\n");
@@ -34,7 +46,7 @@ void ldsifd(){
                 if(!Download("https://github.com/YourKalamity/lazy-dsi-file-downloader/releases/download/3.1.2/lazy-dsi-file-downloader-3.1.2-macOS.zip", "lazy-dsi-file-downloader-3.1.2-macOS.zip")){printf("Done.\n");};
                 sleep(1);
                 ldsifd();
-            #endif 
+            #endif
             }
         if(storeChoice==50)Store();}
 }
@@ -101,7 +113,7 @@ void fkpcmn(){
                 if(!Download("https://github.com/Jonatan6/fake-pacman/releases/latest/download/fake-pacman-mac.zip", "fake-pacman-mac.zip")){printf("Done.\n");};
                 sleep(1);
                 fkpcmn();
-            #endif 
+            #endif
             }
         if(storeChoice==50)Store();}
 }
