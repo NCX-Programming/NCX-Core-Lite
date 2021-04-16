@@ -1,48 +1,52 @@
-all: linux win32 win64
+CC = gcc
+TARGET = NCX-Core-Lite
+GTK = `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+CFLAGS = -Wall -O
+FILES = NCX-Core-Lite/store.c NCX-Core-Lite/functions.c NCX-Core-Lite/main.c NCX-Core-Lite/cli.c
+LIBS = -lcurl
+DEBUG =
+
+all: linux
 
 linux:
 	mkdir -p bin/
-	gcc -Wall -c NCX-Core-Lite/store.c -o bin/store.o
-	gcc -Wall -c NCX-Core-Lite/functions.c -lcurl -o bin/functions.o
-	gcc -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
-	gcc -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
-	gcc bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-Lite
+	$(CC) $(CFLAGS) $(FILES) $(LIBS) $(GTK) $(DEBUG) -o bin/$(TARGET)
+
+linuxd:
+	mkdir -p bin/
+	$(CC) -Wall -c NCX-Core-Lite/store.c -fsanitize=address -g -o bin/store.o
+	$(CC) -Wall -c NCX-Core-Lite/functions.c  -lcurl -fsanitize=address -g -o bin/functions.o
+	$(CC) -Wall -c NCX-Core-Lite/main.c -fsanitize=address -g `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	$(CC) -Wall -c NCX-Core-Lite/cli.c -fsanitize=address -g -o bin/cli.o
+	$(CC) bin/store.o bin/functions.o bin/main.o bin/cli.o -fsanitize=address -g -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/$(TARGET)
 	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
-
-win32:
-	mkdir -p bin/
-	i686-w64-mingw32-gcc NCX-Core-Lite/main.c -lcurl -o bin/NCX-Core-Lite32.exe
-
-win64:
-	mkdir -p bin/
-	x86_64-w64-mingw32-gcc NCX-Core-Lite/main.c -lcurl -o bin/NCX-Core-Lite64.exe
 
 # Note that the mac executables can only be compiled on mac
 macX86:
 	mkdir -p bin/
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
-	gcc -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteX86
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	$(CC) -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/$(TARGET)X86
 	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 macX86app:
 	mkdir -p bin/
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
-	gcc -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
-	gcc -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteX86.app
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	$(CC) -target x86_64-apple-macos10.12 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	$(CC) -target x86_64-apple-macos10.12 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/$(TARGET)X86.app
 	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 macARM:
 	mkdir -p bin/
-	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
-	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
-	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
-	gcc -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
-	gcc -target arm64-apple-macos11 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/NCX-Core-LiteARM
+	$(CC) -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/store.c -o bin/store.o
+	$(CC) -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/functions.c -o bin/functions.o
+	$(CC) -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/main.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/main.o
+	$(CC) -target arm64-apple-macos11 -Wall -c NCX-Core-Lite/cli.c -o bin/cli.o
+	$(CC) -target arm64-apple-macos11 bin/store.o bin/functions.o bin/main.o bin/cli.o -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0` -o bin/$(TARGET)ARM
 	rm bin/store.o bin/functions.o bin/main.o bin/cli.o
 
 clean:

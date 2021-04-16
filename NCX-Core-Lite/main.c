@@ -33,9 +33,9 @@ char usr[32];
 char dwnldDirM[64]="/Users/";
 char dwnldDirU[64]="/home/";
 // Start code
-typedef struct {
+typedef struct{
     // Labels
-    GtkWidget *statuslabel;
+    GtkWidget *w_lbl_status;
 } app_widgets;
 static void print_hello(GtkWidget *widget,gpointer data){
     g_print("Hello World!\n");
@@ -53,13 +53,15 @@ void download_software(int selection){
   #endif
   if(!Download("https://github.com/NCX-Programming/theVaultC/releases/latest/download/theVault-ALL.zip", "theVault-ALL.zip")){g_print("Done.\n");};
 }
-static void button1_download(GtkButton *button,app_widgets *wdgts){
-  //app_widgets *widgets = g_slice_new(app_widgets);
-  //gtk_label_set_text(GTK_LABEL(widgets->statuslabel),"Downloading...");
+void button1_download(GtkButton *button,app_widgets *wdgts){
+  gchar *dwnldStr;
+  dwnldStr="Downloading...";
+  gtk_label_set_text(GTK_LABEL(wdgts->w_lbl_status),dwnldStr);
   //gtk_widget_show(GTK_WIDGET(widgets->statuslabel));
   //while(gtk_events_pending())
 	 //gtk_main_iteration();
-  download_software(1);
+  //download_software(1);
+  g_free(dwnldStr);
 }
 static void activate(GtkApplication *app,app_widgets *wdgts){
   GtkWidget *window;
@@ -122,8 +124,8 @@ static void activate(GtkApplication *app,app_widgets *wdgts){
   gtk_widget_set_margin_bottom(GTK_WIDGET(title),3);
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(title),false,false,0);
   // small status label
-  widgets->statuslabel=gtk_label_new("Ready.");
-  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(widgets->statuslabel),false,false,0);
+  widgets->w_lbl_status=gtk_label_new("Ready.");
+  gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(widgets->w_lbl_status),false,false,0);
   // Pack the grid inside the box
   gtk_box_pack_start(GTK_BOX(box),GTK_WIDGET(grid),false,false,0);
   // Button 1, Place at cell (0,0) and take up 1 space vertically and horizontally
