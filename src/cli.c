@@ -13,9 +13,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
-#include "cli.h"
-#include "store.h"
-#include "functions.h"
+#include "../include/cli.h"
+#include "../include/store.h"
+#include "../include/functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 // Declare variables

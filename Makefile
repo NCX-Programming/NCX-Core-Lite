@@ -1,9 +1,12 @@
-CC = gcc
-TARGET = NCX-Core-Lite
-CFLAGS = -Wall -O
-FILES = NCX-Core-Lite/store.c NCX-Core-Lite/functions.c NCX-Core-Lite/main.c NCX-Core-Lite/cli.c
-LIBS = -lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-DEBUG = -fsanitize=address -g
+# Basic settings
+CC=gcc
+TARGET=NCX-Core-Lite
+# MAKE arguments
+CFLAGS=-Wall -O2
+LIBS=-lcurl `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+DEBUG=-fsanitize=address -g
+# Files to compile
+FILES=src/store.c src/functions.c src/main.c src/cli.c
 
 all: linux
 

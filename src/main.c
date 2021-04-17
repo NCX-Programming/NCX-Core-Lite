@@ -23,9 +23,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include <errno.h>
 #include <dirent.h>
 #include <gtk/gtk.h>
-#include "store.h"
-#include "functions.h"
-#include "cli.h"
+#include "../include/store.h"
+#include "../include/functions.h"
+#include "../include/cli.h"
 // Declare functions
 // Declare variables
 int guiChoice;
