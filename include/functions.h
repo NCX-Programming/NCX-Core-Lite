@@ -20,5 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 // Declare store functions
 void clrScrn();
 int Download();
+int msleep();
 
 #endif /* FUNCTIONS_DOT_H */

@@ -16,6 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.*/
 #include "../include/functions.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
 // Not really sure what this code does but it helps with downloading stuff so its important
@@ -52,4 +53,9 @@ int Download(const char *url, const char *file){
         curl_easy_cleanup(curl);
         fclose(fp); }
     return(0);
+}
+int msleep(int x){
+  int y=x*1000;
+  usleep(y);
+  return(0);
 }
