@@ -55,9 +55,9 @@ jobs:
       run: |
         brew install gtk+3
     - name: Build macOS
-      run: make macX86
+      run: make mac
     - name: Build macOS .app
-      run: make macX86app
+      run: make macapp
     - name: Pack Build Files
       run: |
         mkdir ~/NCX-Core-Lite-macX86
