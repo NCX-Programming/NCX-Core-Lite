@@ -62,6 +62,7 @@ void button1_download(GtkButton *button,app_widgets *wdgts){
   //while(gtk_events_pending())
 	 //gtk_main_iteration();
   //download_software(1);
+  g_slice_free(app_widgets,widgets);
 }
 static void activate(GtkApplication *app,app_widgets *wdgts){
   GtkWidget *window;
