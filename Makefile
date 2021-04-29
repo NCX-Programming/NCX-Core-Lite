@@ -17,6 +17,7 @@ linux:
 linuxd:
 	mkdir -p bin/
 	$(CC) $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)
+	$(info Important! You may recieve a memory leak error when exiting this debug build. It is not a memory leak, do not report it. We are working on a way to suppress it.)
 
 # Note that the mac executables can only be compiled on mac
 mac:
@@ -26,6 +27,7 @@ mac:
 macd:
 	mkdir -p bin/
 	$(CC) -target x86_64-apple-macos10.12 $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
+	$(info Important! You may recieve a memory leak error when exiting this debug build. It is not a memory leak, do not report it. We are working on a way to suppress it.)
 
 macapp:
 	mkdir -p bin/
