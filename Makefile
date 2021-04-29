@@ -36,4 +36,4 @@ macARM:
 	$(CC) -target arm64-apple-macos11 $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
 
 clean:
-	rm -rf bin/* rm -d bin/
+	rm -rf bin/
