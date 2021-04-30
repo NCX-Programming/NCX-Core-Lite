@@ -5,6 +5,7 @@
 
 # Extra
 [Tt]mp/
+*.DS_[Ss]tore
 
 # User-specific files
 *.rsuser
