@@ -1,5 +1,6 @@
 # Basic settings
 CC=gcc
+CCMAC=gcc-11
 TARGET=NCX-Core-Lite
 # MAKE arguments
 CFLAGS=-Wall -O2
@@ -22,20 +23,20 @@ linuxd:
 # Note that the mac executables can only be compiled on mac
 mac:
 	mkdir -p bin/
-	$(CC) -target x86_64-apple-macos10.12 $(CFLAGS) $(FILES) $(LIBS) -o bin/$(TARGET)X86
+	$(CCMAC) $(CFLAGS) $(FILES) $(LIBS) -o bin/$(TARGET)X86
 
 macd:
 	mkdir -p bin/
-	$(CC) -target x86_64-apple-macos10.12 $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
+	$(CCMAC) $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
 	$(info Important! You may recieve a memory leak error when exiting this debug build. It is not a memory leak, do not report it. We are working on a way to suppress it.)
 
 macapp:
 	mkdir -p bin/
-	$(CC) -target x86_64-apple-macos10.12 $(CFLAGS) $(FILES) $(LIBS) -o bin/$(TARGET)X86.app
+	$(CCMAC) $(CFLAGS) $(FILES) $(LIBS) -o bin/$(TARGET)X86.app
 
 macARM:
 	mkdir -p bin/
-	$(CC) -target arm64-apple-macos11 $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
+	$(CCMAC) $(CFLAGS) $(FILES) $(LIBS) $(DEBUG) -o bin/$(TARGET)X86
 
 clean:
 	rm -rf bin/
